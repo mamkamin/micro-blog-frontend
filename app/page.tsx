@@ -1,5 +1,4 @@
 import { getAllUsername } from "@/lib/data/users";
-import Link from "next/link";
 import Header from "./component/header";
 
 export default async function Home() {

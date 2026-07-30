@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 export async function getAllUsername() {
     try {
-        const res = await fetch('http:/localhost:3000/api/v1/users/username');
+        const res = await fetch('http://localhost:3000/api/v1/users/username');
         const json: {
             message: string,
             users: { username: string }[]
@@ -20,7 +20,7 @@ export async function getCurrentUser() {
     if (!token) return null;
 
     try {
-        const res = await fetch('http:/localhost:3000/api/v1/users/me', {
+        const res = await fetch('http://localhost:3000/api/v1/users/me', {
             headers: {
                 Cookie: `access_token=${token}`
             },
