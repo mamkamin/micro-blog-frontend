@@ -77,7 +77,7 @@ export default function Page() {
                         required
                         className="border px-2 py-1"
                     />
-                    <div className="flex space-x-2">
+                    <div className="space-x-2">
                         <button
                             type="submit"
                             disabled={isSubmitting}
@@ -87,7 +87,7 @@ export default function Page() {
                         </button>
                         <Link
                             href="/register"
-                            className="flex items-end text-blue-500 underline"
+                            className="text-blue-500 underline"
                         >
                         Create an account?
                         </Link>
