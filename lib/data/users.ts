@@ -14,6 +14,43 @@ export async function getAllUsername() {
     }
 }
 
+export async function editUser(
+    data: {
+        username?: string,
+        email?: string,
+        password?: string
+    }) {
+
+    const token = (await cookies()).get('access_token')?.value;
+
+    if (!token) return null;
+
+    try {
+        const res = await fetch('http://localhost:3000/api/v1/users/me', {
+            method: 'patch',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Cookie: `access_token=${token}`
+            },
+            cache: 'no-store',
+            body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+            console.log('[SERVER LOG]', json.message);
+            return json.message
+        }
+
+        return json;
+    } catch (error) {
+        console.log('[ERROR] Failed to update current user:', error);
+        return null;
+    }
+}
+
 export async function getCurrentUser() {
     const token = (await cookies()).get('access_token')?.value;
 
@@ -28,7 +65,7 @@ export async function getCurrentUser() {
         });
 
         const data = await res.json();
-        
+
         if (!res.ok) {
             console.log('[SERVER LOG]', data.message);
             return null;
@@ -37,6 +74,6 @@ export async function getCurrentUser() {
         return data.user;
     } catch (error) {
         console.log('[ERROR] Failed to get current user:', error);
-        return;
+        return null;
     }
 }

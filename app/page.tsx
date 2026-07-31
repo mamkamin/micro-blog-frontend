@@ -1,5 +1,5 @@
 import { getAllUsername } from "@/lib/data/users";
-import Header from "./component/header";
+import Header from "@/component/header";
 
 export default async function Home() {
   const username_list = await getAllUsername();
