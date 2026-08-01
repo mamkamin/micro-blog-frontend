@@ -1,20 +1,53 @@
-import { getAllUsername } from "@/lib/data/users";
 import Header from "@/component/header";
+import PostCard from "@/component/post-card";
+import PostPromptCard from "@/component/post-prompt-card";
+import { getLatestPosts } from "@/lib/data/posts";
+import dayjs from "dayjs";
+
+function formatPostDate(createdAt: string) {
+  const date = dayjs(createdAt);
+  const today = dayjs();
+  const time = date.format("h:mm A");
+
+  if (date.isSame(today, "day")) {
+    return `Today at ${time}`;
+  }
+
+  if (date.isSame(today.subtract(1, "day"), "day")) {
+    return `Yesterday at ${time}`;
+  }
+
+  if (date.isAfter(today.subtract(7, "day"), "day")) {
+    return `${date.format("dddd")} at ${time}`;
+  }
+
+  return date.format("MMM D, YYYY [at] h:mm A");
+}
 
 export default async function Home() {
-  const username_list = await getAllUsername();
+  const posts = (await getLatestPosts()) ?? [];
+
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex min-h-full flex-col">
       <Header />
-      <main className="flex flex-col flex-1 justify-center items-center">
-        <div className="border rounded-sm p-4">
-          <h1 className="text-xl border rounded-md p-2 mb-2">Available users</h1>
-          <ul className="space-y-2">
-            {username_list.map((user, idx: number) => (
-              <li className="border rounded-md p-1" key={idx}>{user.username}</li>
-            ))}
-          </ul>
-        </div>
+      <main className="flex flex-1 justify-center px-4 py-8 sm:px-6 sm:py-10">
+        <section className="w-full max-w-2xl">
+          <div className="mb-6">
+            <p className="text-sm font-medium text-neutral-500">Your feed</p>
+            <h1 className="mt-1 text-3xl font-semibold tracking-tight">What&apos;s new</h1>
+          </div>
+           <PostPromptCard />
+           <div className="mt-6 space-y-4">
+             {posts.map((post: { id: string; username: string; body: string; created_at: string }) => (
+               <PostCard
+                  key={post.id}
+                  sender={post.username}
+                  body={post.body}
+                  created_at={formatPostDate(post.created_at)}
+                />
+             ))}
+           </div>
+        </section>
       </main>
     </div>
   );
