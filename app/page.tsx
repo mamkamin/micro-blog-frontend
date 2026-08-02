@@ -1,7 +1,8 @@
 import Header from "@/component/header";
-import PostCard from "@/component/post-card";
+import PostFeed from "@/component/post-feed";
 import PostPromptCard from "@/component/post-prompt-card";
 import { getLatestPosts } from "@/lib/data/posts";
+import { getCurrentUser } from "@/lib/data/users";
 import dayjs from "dayjs";
 
 function formatPostDate(createdAt: string) {
@@ -26,6 +27,7 @@ function formatPostDate(createdAt: string) {
 
 export default async function Home() {
   const posts = (await getLatestPosts()) ?? [];
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="flex min-h-full flex-col">
@@ -37,16 +39,13 @@ export default async function Home() {
             <h1 className="mt-1 text-3xl font-semibold tracking-tight">What&apos;s new</h1>
           </div>
            <PostPromptCard />
-           <div className="mt-6 space-y-4">
-             {posts.map((post: { id: string; username: string; body: string; created_at: string }) => (
-               <PostCard
-                  key={post.id}
-                  sender={post.username}
-                  body={post.body}
-                  created_at={formatPostDate(post.created_at)}
-                />
-             ))}
-           </div>
+           <PostFeed
+             posts={posts.map((post: { id: string; username: string; body: string; created_at: string }) => ({
+               ...post,
+               created_at: formatPostDate(post.created_at),
+             }))}
+             currentUsername={currentUser?.username}
+           />
         </section>
       </main>
     </div>
