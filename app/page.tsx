@@ -40,9 +40,10 @@ export default async function Home() {
           </div>
            <PostPromptCard />
            <PostFeed
-             posts={posts.map((post: { id: string; username: string; body: string; created_at: string }) => ({
+             posts={posts.map((post: { id: string; username: string; body: string; created_at: string; updated_at: string }) => ({
                ...post,
                created_at: formatPostDate(post.created_at),
+               isEdited: post.updated_at !== post.created_at,
              }))}
              currentUsername={currentUser?.username}
            />

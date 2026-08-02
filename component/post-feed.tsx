@@ -9,6 +9,7 @@ interface Post {
   username: string;
   body: string;
   created_at: string;
+  isEdited: boolean;
 }
 
 interface PostFeedProps {
@@ -29,6 +30,7 @@ export default function PostFeed({ posts, currentUsername }: PostFeedProps) {
             postId={post.id}
             body={post.body}
             created_at={post.created_at}
+            isEdited={post.isEdited}
             isOwner={post.username === currentUsername}
             onError={setError}
           />
