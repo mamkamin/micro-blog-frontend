@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Micro Blog Frontend
 
-## Getting Started
+![Educational Purposes](https://img.shields.io/badge/Purpose-Educational-blue)
 
-First, run the development server:
+A Next.js frontend for the Micro Blog REST API, a micro-blogging application inspired by Threads and X/Twitter.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+## Prerequisites
+
+- Node.js 18 or later
+- A running [Micro Blog REST API](https://github.com/mamkamin/micro-blog-rest-api)
+
+## Setup
+
+1. Install the project dependencies:
+
+   ```sh
+   pnpm install
+   ```
+
+2. Start the Micro Blog REST API on `http://localhost:3000`.
+
+   The frontend expects the API routes documented in the backend project, including authentication cookies and the users and posts endpoints.
+
+3. Start the frontend development server:
+
+   ```sh
+   pnpm dev
+   ```
+
+4. Open [http://localhost:8080](http://localhost:8080) in your browser.
+
+## Running Locally
+
+Start the frontend in development mode:
+
+```sh
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a production build:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+pnpm build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run the production server:
 
-## Learn More
+```sh
+pnpm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+The application listens on `http://localhost:8080`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Pages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Route | Description |
+| --- | --- |
+| `/` | View the latest-post feed and create a post |
+| `/login` | Log in with an email address or username and password |
+| `/register` | Create an account |
+| `/profile` | View and update the authenticated account |
 
-## Deploy on Vercel
+Authentication is handled by the API's `access_token` HTTP-only cookie. The frontend sends credentials with browser requests and forwards the cookie for server-rendered authenticated requests.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Implemented
+
+- [x] View the latest posts feed
+- [x] Register a user
+- [x] Log in and log out with cookie-based JWT authentication
+- [x] Create posts
+- [x] Edit and delete owned posts
+- [x] View and update the authenticated profile
+- [x] Responsive Next.js interface styled with Tailwind CSS
+
+### Planned
+
+- [ ] User profile pages and user-specific post feeds
+- [ ] Follow and unfollow users
+- [ ] Followers and following lists
+- [ ] A feed containing posts from followed users
+- [ ] Post likes and replies
+- [ ] Automated test suite
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start the development server on port 8080 |
+| `pnpm build` | Create an optimized production build |
+| `pnpm start` | Start the production server on port 8080 |
+| `pnpm lint` | Run ESLint |
