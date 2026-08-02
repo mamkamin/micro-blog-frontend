@@ -62,29 +62,41 @@ export default function PostCard(props: PostCardProps) {
         </div>
         {props.isOwner && (
           <div
-            className="flex relative self-center"
+            className="relative flex self-center"
+            onMouseEnter={() => setMenuOpen(true)}
+            onMouseLeave={() => setMenuOpen(false)}
+            onFocusCapture={() => setMenuOpen(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setMenuOpen(false);
+              }
+            }}
           >
             <button
+              type="button"
               onClick={() => setMenuOpen((open) => !open)}
+              aria-label="Post actions"
+              aria-expanded={isMenuOpen}
               className="self-center rounded-full p-2 hover:bg-gray-300"
             >
               <img
-                src="kebab-menu.svg"
-                alt="dropdown-kebab-menu-icon"
+                src="/kebab-menu.svg"
+                alt=""
                 height={20}
                 width={20}
               />
             </button>
 
             {isMenuOpen && (
-              <div className="absolute flex flex-col space-y-1 right-0 top-10 border rounded-lg p-2 shadow-lg bg-white">
+              <div className="absolute right-0 top-8 z-10 flex flex-col space-y-1 rounded-lg border bg-white p-2 shadow-lg dark:bg-neutral-900">
                 <button
                   className="px-2 rounded-sm hover:border-white hover:border hover:cursor-pointer hover:text-white hover:bg-black">
                   Edit
                 </button>
                 <button
                   onClick={onDeleteHandler}
-                  className="px-2 rounded-sm hover:border hover:cursor-pointer hover:text-white hover:bg-black"
+                  disabled={isSubmitting}
+                  className="px-2 rounded-sm hover:border hover:cursor-pointer hover:text-white hover:bg-black disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isSubmitting ? "Deleting..." : "Delete"}
                 </button>
